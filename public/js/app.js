@@ -11814,16 +11814,37 @@ var app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
     data: {
         message: '',
         chat: {
-            message: []
+            message: [],
+            user: []
         }
     },
     methods: {
         send: function send() {
+            var _this = this;
+
             if (this.message.length != 0) {
                 this.chat.message.push(this.message);
-                this.message = '';
+                this.chat.user.push('you');
+
+                axios.post('/send', {
+                    message: this.message
+                }).then(function (response) {
+                    console.log(response);
+                    _this.message = '';
+                }).catch(function (error) {
+                    console.log(error);
+                });
             }
         }
+    },
+    mounted: function mounted() {
+        var _this2 = this;
+
+        Echo.private('chat').listen('ChatEvent', function (e) {
+            _this2.chat.message.push(e.message);
+            _this2.chat.user.push(e.user);
+            //console.log(e);
+        });
     }
 });
 
@@ -48018,7 +48039,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 
 /* harmony default export */ __webpack_exports__["default"] = ({
-	props: ['color'],
+	props: ['color', 'user'],
 	computed: {
 		className: function className() {
 			return 'list-group-item-' + this.color;
@@ -48049,7 +48070,7 @@ var render = function() {
     ),
     _vm._v(" "),
     _c("small", { staticClass: "badge float-right", class: _vm.badgeClass }, [
-      _vm._v("You")
+      _vm._v(_vm._s(_vm.user))
     ])
   ])
 }

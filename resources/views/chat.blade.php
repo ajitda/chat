@@ -20,16 +20,17 @@
 				<ul class="list-group" v-chat-scroll>
 				  
 				  <message
-					v-for="value in chat.message"
+					v-for="value,index in chat.message"
 					:key=value.index
 					color='success'
+					:user = chat.user[index]
 
 				  >
 				  	@{{ value }}
 				  </message>
 				  
 				</ul>
-				<input type="text" class="form-control" placeholder="Enter your message here" v-model='message' @keyup.enter='send'>
+				<input type="text" class="form-control" placeholder="Type your message here" v-model='message' @keyup.enter='send'>
 			</div>
 			
 		</div>
