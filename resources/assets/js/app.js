@@ -1,4 +1,3 @@
-
 /**
  * First we will load all of this project's JavaScript dependencies which
  * includes Vue and other libraries. It is a great starting point when
@@ -50,7 +49,8 @@ const app = new Vue({
     			this.chat.time.push(this.getTime());
     			
                 axios.post('/send', {
-                    message: this.message
+                    message: this.message,
+                    chat:this.chat
                   })
                   .then(response=> {
                     console.log(response);
@@ -64,9 +64,23 @@ const app = new Vue({
         getTime(){
             let time = new Date();
             return time.getHours()+':'+time.getMinutes();
+        },
+
+        getOldMessages(){
+            axios.post('/getOldMessage')
+                .then(response => {
+                    console.log(response);
+                    if(response.data != ''){
+                        this.chat = response.data;
+                    }
+                })
+                .catch(error=>{
+                    console.log(error);
+                });
         }
     },
     mounted(){
+        this.getOldMessages();
         Echo.private('chat')
             .listen('ChatEvent', (e) => {
                 this.chat.message.push(e.message);

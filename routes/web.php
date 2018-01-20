@@ -15,6 +15,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('check', function(){
+	return session('chat');
+});
 
 Route::get('/chat', 'ChatController@chat');
 Route::post('send', 'ChatController@send');
