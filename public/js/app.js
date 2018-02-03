@@ -11929,7 +11929,6 @@ var app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
                 this.chat.color.push('success');
                 this.chat.user.push('you');
                 this.chat.time.push(this.getTime());
-
                 axios.post('/send', {
                     message: this.message,
                     chat: this.chat
@@ -11967,6 +11966,11 @@ var app = new __WEBPACK_IMPORTED_MODULE_0_vue___default.a({
             _this3.chat.user.push(e.user);
             _this3.chat.color.push('warning');
             _this3.chat.time.push(_this3.getTime());
+            axios.post('/saveToSession', {
+                chat: _this3.chat
+            }).then(function (response) {}).catch(function (error) {
+                console.log(error);
+            });
             //console.log(e);
         }).listenForWhisper('typing', function (e) {
             if (e.name != '') {

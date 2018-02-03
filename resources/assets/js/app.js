@@ -47,7 +47,6 @@ const app = new Vue({
                 this.chat.color.push('success');
                 this.chat.user.push('you');
     			this.chat.time.push(this.getTime());
-    			
                 axios.post('/send', {
                     message: this.message,
                     chat:this.chat
@@ -87,6 +86,15 @@ const app = new Vue({
                 this.chat.user.push(e.user);
                 this.chat.color.push('warning');
                 this.chat.time.push(this.getTime());
+                axios.post('/saveToSession',{
+                    chat : this.chat
+                })
+                .then(response => {
+                    
+                })
+                .catch(error=>{
+                    console.log(error);
+                });
                 //console.log(e);
             })
             .listenForWhisper('typing', (e) => {
